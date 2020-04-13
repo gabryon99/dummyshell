@@ -24,7 +24,7 @@ void cd_handler(char* input) {
 
     char* path = strstr(input, " ") + 1;
     char* token_state = NULL;
-    char* tokenized_path = __strtok_r(path, "\n", &token_state);
+    char* tokenized_path = strtok_r(path, "\n", &token_state);
 
     fprintf(stdout, "path: %s\n", tokenized_path);
 
@@ -124,7 +124,8 @@ void parse_arguments(char* buffer, char* argv[MAX_ARGC]) {
 
     size_t i = 0;
 
-    for (char* arg = strtok(buffer_copy, " \n"); arg != NULL; arg =  strtok(NULL, " \n"), i++) {
+    char* token_state = NULL;
+    for (char* arg = strtok_r(buffer_copy, " \n", &token_state); arg != NULL; arg = strtok_r(NULL, " \n", &token_state), i++) {
         
         size_t arg_len = strlen(arg) + 1;
         char* command = malloc(arg_len * sizeof(char));
