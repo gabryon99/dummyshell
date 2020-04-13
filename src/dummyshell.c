@@ -7,6 +7,8 @@
 #include <sys/wait.h>
 #include <errno.h>
 #include <libgen.h>
+#include <stdio_ext.h>
+
 
 #define CHECK_MALLOC(ptr, message) \
     if (ptr == NULL) { \
@@ -55,6 +57,9 @@ void init_shell_loop() {
         
         prompt_command();
         if (!read_command(&buffer)) continue;
+
+        fprintf(stdout, "\n\n%s\n\n", buffer);
+
         if (execute_builtin(buffer)) continue;
 
         if (!execute_command(buffer)) {
@@ -145,6 +150,7 @@ bool read_command(char** buffer) {
 
     if (fgets(*buffer, COMMAND_BUFFER_SIZE, stdin) == NULL) {
         fprintf(stdout, "\n");
+        clearerr(stdin);
         return false;
     }
 
