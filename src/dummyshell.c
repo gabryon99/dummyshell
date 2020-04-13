@@ -57,9 +57,6 @@ void init_shell_loop() {
         
         prompt_command();
         if (!read_command(&buffer)) continue;
-
-        fprintf(stdout, "\n\n%s\n\n", buffer);
-
         if (execute_builtin(buffer)) continue;
 
         if (!execute_command(buffer)) {
